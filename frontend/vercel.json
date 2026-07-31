@@ -15,7 +15,8 @@
   to = "/index.html"
   status = 200
 
-# API 代理到 Render 后端（部署后替换 URL）
+# API 代理到 Render 后端
+# 部署后端后，在 Vercel Dashboard → Settings → Redirects 中修改 destination 为你的 Render URL
 [[redirects]]
   from = "/api/*"
   to = "https://infinshow-backend.onrender.com/api/:splat"
