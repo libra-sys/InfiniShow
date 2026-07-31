@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== 设计系统 Token ===== */
+/* 浅色模式 — 靛蓝石板 */
+:root,
+[data-theme='light'] {
+  --color-base: 248 250 252;        /* oklch(98% 0.005 250) 蓝灰底 */
+  --color-surface: 255 255 255;     /* 纯白卡片 */
+  --color-elevated: 241 245 249;    /* oklch(97% 0.008 250) */
+  --color-ink: 15 23 42;            /* oklch(25% 0.02 250) 深蓝灰文字 */
+  --color-ink-secondary: 71 85 105; /* oklch(50% 0.015 250) */
+  --color-ink-muted: 100 116 139;   /* oklch(55% 0.012 250) */
+  --color-line: 226 232 240;        /* oklch(90% 0.01 250) */
+  --color-accent: 37 99 235;        /* oklch(55% 0.18 255) 亮蓝 */
+  --color-accent-hover: 29 78 216;
+  --color-accent-soft: 239 246 255; /* 浅蓝背景 */
+  --color-success: 16 185 129;
+  --color-warning: 245 158 11;
+  --color-danger: 239 68 68;
+  --shadow-card: 0 1px 3px 0 rgb(15 23 42 / 0.06), 0 1px 2px 0 rgb(15 23 42 / 0.04);
+  --shadow-elevated: 0 4px 12px -2px rgb(15 23 42 / 0.08), 0 2px 6px -2px rgb(15 23 42 / 0.05);
+  --shadow-popover: 0 12px 32px -4px rgb(15 23 42 / 0.12), 0 8px 16px -4px rgb(15 23 42 / 0.06);
+}
+
+/* 深色模式 — 不用纯黑，用蓝灰深色 */
+[data-theme='dark'] {
+  --color-base: 15 23 42;           /* oklch(15% 0.015 250) */
+  --color-surface: 30 41 59;        /* oklch(18% 0.015 250) */
+  --color-elevated: 51 65 85;       /* oklch(22% 0.015 250) */
+  --color-ink: 226 232 240;         /* oklch(92% 0.01 250) */
+  --color-ink-secondary: 148 163 184;
+  --color-ink-muted: 100 116 139;
+  --color-line: 51 65 85;
+  --color-accent: 96 165 250;       /* oklch(65% 0.15 255) */
+  --color-accent-hover: 147 197 253;
+  --color-accent-soft: 30 58 138;   /* 深蓝背景 */
+  --color-success: 52 211 153;
+  --color-warning: 251 191 36;
+  --color-danger: 248 113 113;
+  --shadow-card: 0 0 0 1px rgb(148 163 184 / 0.1);
+  --shadow-elevated: 0 4px 12px -2px rgb(0 0 0 / 0.3);
+  --shadow-popover: 0 12px 32px -4px rgb(0 0 0 / 0.5);
+}
+
+/* ===== 基础样式 ===== */
+@layer base {
+  * {
+    border-color: rgb(var(--color-line));
+  }
+
+  body {
+    background-color: rgb(var(--color-base));
+    color: rgb(var(--color-ink));
+    font-family: theme('fontFamily.sans');
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* 数据对齐用等宽数字 */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 选中色 */
+  ::selection {
+    background-color: rgb(var(--color-accent) / 0.15);
+  }
+
+  /* 滚动条 */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-ink-muted) / 0.3);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--color-ink-muted) / 0.5);
+  }
+
+  /* 焦点环 */
+  :focus-visible {
+    outline: 2px solid rgb(var(--color-accent));
+    outline-offset: 2px;
+  }
+}
+
+/* ===== 组件层 ===== */
+@layer components {
+  /* 卡片 */
+  .card {
+    background-color: rgb(var(--color-surface));
+    border: 1px solid rgb(var(--color-line));
+    border-radius: 1rem;
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-elevated {
+    background-color: rgb(var(--color-surface));
+    border: 1px solid rgb(var(--color-line));
+    border-radius: 1rem;
+    box-shadow: var(--shadow-elevated);
+  }
+
+  /* 溯源徽章 */
+  .badge-consistent {
+    background-color: rgb(var(--color-success) / 0.12);
+    color: rgb(var(--color-success));
+  }
+  .badge-questionable {
+    background-color: rgb(var(--color-warning) / 0.12);
+    color: rgb(var(--color-warning));
+  }
+  .badge-inconsistent {
+    background-color: rgb(var(--color-danger) / 0.12);
+    color: rgb(var(--color-danger));
+  }
+
+  /* 骨架屏 */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      rgb(var(--color-elevated)) 0%,
+      rgb(var(--color-line)) 50%,
+      rgb(var(--color-elevated)) 100%
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 2s linear infinite;
+  }
+}

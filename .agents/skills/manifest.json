@@ -1,0 +1,94 @@
+{
+  "name": "infinisynapse-ai-workspace",
+  "version": "0.4.0",
+  "description": "Skill registry for the InfiniSynapse AI rule pack.",
+  "source_of_truth": ".agents/skills/",
+  "platform": {
+    "server_api_prefix": "/api",
+    "base_url_cn": "https://app.infinisynapse.cn",
+    "base_url_com": "https://app.infinisynapse.com",
+    "account_api_cn": "https://api.infinisynapse.cn/api",
+    "verified_against": "infinisynapse-site snapshot 2026-07-09 (8 docs pages incl. skill management, partner SSO, vibe coding guide)"
+  },
+  "skills": [
+    {
+      "name": "infinisynapse-server-api",
+      "path": "infinisynapse-server-api/SKILL.md",
+      "category": "integration",
+      "criticality": "high",
+      "fanout": ["cursor", "copilot"],
+      "triggers": [
+        "写 SDK / 后端 route / API proxy / mini-app / 直接 curl 调 InfiniSynapse",
+        "代码出现 /api/ai/events、/api/ai/message、taskId、connId、SSE",
+        "问数据源、RAG、文件上传、workspace 产物、下载预览"
+      ],
+      "primary_doc": "upstream-docs/infinisynapse-site/zh/markdown/server-api-reference.md",
+      "references": ["docs/reference/api-index.md", "docs/reference/task-lifecycle.md", "samples/sdk/"]
+    },
+    {
+      "name": "infinisynapse-product-patterns",
+      "path": "infinisynapse-product-patterns/SKILL.md",
+      "category": "product",
+      "criticality": "high",
+      "fanout": [],
+      "triggers": [
+        "基于这个项目开发产品",
+        "设计 mini-app / SaaS 功能 / 报告生成 / 购物比价 / 高考助手",
+        "需要 API 编排而不是单个 endpoint"
+      ],
+      "primary_doc": "upstream-docs/infinisynapse-site/zh/markdown/server-api-reference.md#11",
+      "references": ["docs/reference/task-lifecycle.md", "samples/sdk/"]
+    },
+    {
+      "name": "infinisynapse-deployment",
+      "path": "infinisynapse-deployment/SKILL.md",
+      "category": "deployment",
+      "criticality": "high",
+      "fanout": ["cursor", "copilot"],
+      "triggers": [
+        "private deployment / Docker Compose / .env / init-admin / infini-sql / OOM",
+        "登录失败 / API 401 / 空白页 / 端口冲突",
+        "写部署文档 / 部署脚本 / 验收 checklist"
+      ],
+      "primary_doc": "upstream-docs/infinisynapse-site/zh/markdown/private-deployment-guide.md",
+      "references": ["docs/QUICK-REFERENCE.md", "docs/SOURCE-AUDIT.md"]
+    },
+    {
+      "name": "infinisynapse-cli",
+      "path": "infinisynapse-cli/SKILL.md",
+      "category": "cli",
+      "criticality": "medium",
+      "fanout": [],
+      "triggers": [
+        "agent_infini / CLI / task new / task ask / db ls / rag ls",
+        "复刻 CLI 行为或排查 CLI 网络问题"
+      ],
+      "primary_doc": "upstream-docs/infinisynapse-site/zh/markdown/cli-api-reference.md",
+      "references": ["docs/reference/api-index.md"]
+    },
+    {
+      "name": "infinisynapse-browser-extension",
+      "path": "infinisynapse-browser-extension/SKILL.md",
+      "category": "browser",
+      "criticality": "medium",
+      "fanout": [],
+      "triggers": [
+        "Browser Use / Chrome 插件 / 浏览器自动化 / 网页采集 / 表单自动填写",
+        "产品需要 AI 操作网页或读取用户浏览器上下文"
+      ],
+      "primary_doc": "upstream-docs/infinisynapse-site/zh/markdown/chrome-plugin-install.md",
+      "references": ["samples/sdk/"]
+    }
+  ],
+  "fanout_targets": {
+    "claude_code": ".claude/skills/ (mirror of .agents/skills via tools/sync-skills.sh)",
+    "codex": "AGENTS.md + .agents/skills/",
+    "cursor": ".cursor/rules/*.mdc",
+    "copilot": ".github/copilot-instructions.md + .github/instructions/"
+  },
+  "guardrails": {
+    "post_edit_hook": "tools/hooks/post-edit.sh",
+    "scanner": "tools/hooks/lib/scan-infinisynapse.sh",
+    "rule_ids": ["INF-SEC-001", "INF-SEC-002", "INF-SSE-001", "INF-DL-001", "INF-API-001", "INF-ENV-001", "INF-ENV-002", "INF-ENV-003"]
+  }
+}

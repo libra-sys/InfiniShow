@@ -1,0 +1,279 @@
+# 12 类高频经营场景配置
+# 每个场景包含：名称、图标、表单字段分组、默认指标、Prompt 模板
+
+scenarios:
+  S01:
+    name: "外卖餐饮店"
+    icon: "utensils"
+    target: "入驻美团/饿了么的中小餐饮"
+    dimensions: ["订单", "评价", "菜品", "时段"]
+    default_metrics: ["GMV", "单均实收", "差评率", "出餐时长"]
+    form_groups:
+      - group: "基础经营"
+        fields:
+          - {key: "total_orders", label: "近30天总订单数", type: "number", required: true}
+          - {key: "total_revenue", label: "近30天实收金额（元）", type: "number", required: true}
+      - group: "用户评价"
+        fields:
+          - {key: "avg_rating", label: "平均评分（1-5）", type: "number", min: 1, max: 5}
+          - {key: "bad_review_count", label: "差评数", type: "number"}
+      - group: "成本结构"
+        fields:
+          - {key: "food_cost_rate", label: "食材成本率（0-1）", type: "number", min: 0, max: 1}
+          - {key: "platform_fee_rate", label: "平台扣点率（0-1）", type: "number", min: 0, max: 1}
+      - group: "运营效率"
+        fields:
+          - {key: "delivery_duration_avg", label: "平均配送时长（分钟）", type: "number"}
+          - {key: "peak_hours", label: "高峰时段", type: "text", placeholder: "11:00-13:00,17:00-19:00"}
+    prompt_template: |
+      你是一位外卖餐饮经营分析专家。请基于以下数据进行分析：
+      - 近30天总订单数：{total_orders}
+      - 近30天实收金额：{total_revenue}元
+      - 平均评分：{avg_rating}
+      - 差评数：{bad_review_count}
+      请输出：1)核心KPI 2)经营健康度五维评分 3)品类利润占比 4)行动建议
+
+  S02:
+    name: "电商小店"
+    icon: "shopping-cart"
+    target: "淘宝/拼多多/抖音电商个体"
+    dimensions: ["流量", "转化", "售后", "SKU"]
+    default_metrics: ["转化率", "退货率", "广告ROI"]
+    form_groups:
+      - group: "流量与转化"
+        fields:
+          - {key: "total_visitors", label: "近30天访客数", type: "number", required: true}
+          - {key: "total_orders", label: "近30天订单数", type: "number", required: true}
+          - {key: "total_revenue", label: "近30天GMV（元）", type: "number", required: true}
+      - group: "售后与成本"
+        fields:
+          - {key: "return_rate", label: "退货率（0-1）", type: "number", min: 0, max: 1}
+          - {key: "ad_spend", label: "广告花费（元）", type: "number"}
+          - {key: "ad_revenue", label: "广告带来的收入（元）", type: "number"}
+    prompt_template: |
+      你是一位电商运营分析专家。请基于以下数据分析：
+      - 访客数：{total_visitors}，订单数：{total_orders}，GMV：{total_revenue}元
+      - 退货率：{return_rate}，广告花费：{ad_spend}元，广告收入：{ad_revenue}元
+      请输出：1)转化率/ROI等核心KPI 2)经营健康度 3)渠道对比 4)优化建议
+
+  S03:
+    name: "线下便利店"
+    icon: "store"
+    target: "社区/写字楼便利店"
+    dimensions: ["销售", "库存", "损耗", "品类"]
+    default_metrics: ["坪效", "周转天数", "缺货率"]
+    form_groups:
+      - group: "基础经营"
+        fields:
+          - {key: "total_revenue", label: "近30天营业额（元）", type: "number", required: true}
+          - {key: "store_area", label: "店铺面积（㎡）", type: "number", required: true}
+          - {key: "avg_daily_customers", label: "日均客流", type: "number"}
+      - group: "库存"
+        fields:
+          - {key: "inventory_turnover_days", label: "库存周转天数", type: "number"}
+          - {key: "stockout_rate", label: "缺货率（0-1）", type: "number", min: 0, max: 1}
+          - {key: "shrinkage_rate", label: "损耗率（0-1）", type: "number", min: 0, max: 1}
+    prompt_template: |
+      你是一位便利店经营分析专家。请分析：
+      - 营业额：{total_revenue}元，面积：{store_area}㎡，日均客流：{avg_daily_customers}
+      - 周转天数：{inventory_turnover_days}，缺货率：{stockout_rate}，损耗率：{shrinkage_rate}
+      请输出：1)坪效/周转等KPI 2)健康度评分 3)品类贡献分析 4)库存优化建议
+
+  S04:
+    name: "社区生鲜店"
+    icon: "apple"
+    target: "生鲜果蔬专营店"
+    dimensions: ["损耗", "毛利", "复购", "时段"]
+    default_metrics: ["损耗率", "毛利率", "复购率"]
+    form_groups:
+      - group: "基础经营"
+        fields:
+          - {key: "total_revenue", label: "近30天营业额（元）", type: "number", required: true}
+          - {key: "gross_profit", label: "毛利润（元）", type: "number", required: true}
+      - group: "损耗与复购"
+        fields:
+          - {key: "shrinkage_rate", label: "损耗率（0-1）", type: "number", min: 0, max: 1}
+          - {key: "repurchase_rate", label: "复购率（0-1）", type: "number", min: 0, max: 1}
+          - {key: "member_count", label: "会员数", type: "number"}
+    prompt_template: |
+      你是一位生鲜经营分析专家。请分析：
+      - 营业额：{total_revenue}元，毛利：{gross_profit}元
+      - 损耗率：{shrinkage_rate}，复购率：{repurchase_rate}，会员数：{member_count}
+      请输出：1)毛利率/损耗率等KPI 2)健康度 3)时段销售分析 4)降损建议
+
+  S05:
+    name: "美发美甲店"
+    icon: "scissors"
+    target: "美业个体/工作室"
+    dimensions: ["预约", "客单价", "会员", "评价"]
+    default_metrics: ["客单价", "翻台率", "会员占比"]
+    form_groups:
+      - group: "基础经营"
+        fields:
+          - {key: "total_revenue", label: "近30天营业额（元）", type: "number", required: true}
+          - {key: "total_customers", label: "近30天服务客数", type: "number", required: true}
+      - group: "会员与评价"
+        fields:
+          - {key: "member_ratio", label: "会员占比（0-1）", type: "number", min: 0, max: 1}
+          - {key: "avg_rating", label: "平均评分", type: "number", min: 1, max: 5}
+          - {key: "avg_appointment_wait", label: "平均预约等待（天）", type: "number"}
+    prompt_template: |
+      你是一位美业经营分析专家。请分析：
+      - 营业额：{total_revenue}元，客数：{total_customers}
+      - 会员占比：{member_ratio}，评分：{avg_rating}
+      请输出：1)客单价等KPI 2)健康度 3)会员分析 4)引流建议
+
+  S06:
+    name: "教培工作室"
+    icon: "graduation-cap"
+    target: "线下/线上小班课机构"
+    dimensions: ["招生", "消课", "续费", "退费率"]
+    default_metrics: ["消课率", "续费率", "获客成本"]
+    form_groups:
+      - group: "基础经营"
+        fields:
+          - {key: "total_revenue", label: "近30天收入（元）", type: "number", required: true}
+          - {key: "student_count", label: "在读学员数", type: "number", required: true}
+      - group: "消课与续费"
+        fields:
+          - {key: "class_completion_rate", label: "消课率（0-1）", type: "number", min: 0, max: 1}
+          - {key: "renewal_rate", label: "续费率（0-1）", type: "number", min: 0, max: 1}
+          - {key: "refund_rate", label: "退费率（0-1）", type: "number", min: 0, max: 1}
+          - {key: "acquisition_cost", label: "获客成本（元）", type: "number"}
+    prompt_template: |
+      你是一位教培机构经营分析专家。请分析：
+      - 收入：{total_revenue}元，学员：{student_count}人
+      - 消课率：{class_completion_rate}，续费率：{renewal_rate}，退费率：{refund_rate}
+      请输出：1)消课/续费等KPI 2)健康度 3)招生分析 4)续费提升建议
+
+  S07:
+    name: "健身私教馆"
+    icon: "dumbbell"
+    target: "健身房/瑜伽/私教工作室"
+    dimensions: ["会员", "约课", "续卡", "体验"]
+    default_metrics: ["会员留存率", "课消率", "续卡率"]
+    form_groups:
+      - group: "基础经营"
+        fields:
+          - {key: "total_revenue", label: "近30天收入（元）", type: "number", required: true}
+          - {key: "member_count", label: "活跃会员数", type: "number", required: true}
+      - group: "留存与转化"
+        fields:
+          - {key: "retention_rate", label: "留存率（0-1）", type: "number", min: 0, max: 1}
+          - {key: "class_consumption_rate", label: "课消率（0-1）", type: "number", min: 0, max: 1}
+          - {key: "renewal_rate", label: "续卡率（0-1）", type: "number", min: 0, max: 1}
+    prompt_template: |
+      你是一位健身行业经营分析专家。请分析：
+      - 收入：{total_revenue}元，会员：{member_count}
+      - 留存率：{retention_rate}，课消率：{class_consumption_rate}，续卡率：{renewal_rate}
+      请输出：1)核心KPI 2)健康度 3)会员分析 4)留存提升建议
+
+  S08:
+    name: "宠物服务店"
+    icon: "paw-print"
+    target: "宠物美容/寄养/医院"
+    dimensions: ["服务", "商品", "会员", "评价"]
+    default_metrics: ["服务占比", "复购率", "客单价"]
+    form_groups:
+      - group: "基础经营"
+        fields:
+          - {key: "total_revenue", label: "近30天营业额（元）", type: "number", required: true}
+          - {key: "service_revenue", label: "服务收入（元）", type: "number"}
+          - {key: "product_revenue", label: "商品收入（元）", type: "number"}
+      - group: "客户"
+        fields:
+          - {key: "total_customers", label: "服务客户数", type: "number"}
+          - {key: "repurchase_rate", label: "复购率（0-1）", type: "number", min: 0, max: 1}
+    prompt_template: |
+      你是一位宠物服务行业经营分析专家。请分析：
+      - 营业额：{total_revenue}元（服务：{service_revenue}，商品：{product_revenue}）
+      - 客户数：{total_customers}，复购率：{repurchase_rate}
+      请输出：1)服务占比等KPI 2)健康度 3)商品vs服务分析 4)会员运营建议
+
+  S09:
+    name: "汽车后市场"
+    icon: "car"
+    target: "洗车/保养/维修门店"
+    dimensions: ["工单", "配件", "客户", "产值"]
+    default_metrics: ["单车产值", "回厂率", "毛利"]
+    form_groups:
+      - group: "基础经营"
+        fields:
+          - {key: "total_revenue", label: "近30天产值（元）", type: "number", required: true}
+          - {key: "total_orders", label: "工单数", type: "number", required: true}
+      - group: "客户与成本"
+        fields:
+          - {key: "return_rate", label: "回厂率（0-1）", type: "number", min: 0, max: 1}
+          - {key: "parts_cost", label: "配件成本（元）", type: "number"}
+          - {key: "labor_cost", label: "工时成本（元）", type: "number"}
+    prompt_template: |
+      你是一位汽车后市场经营分析专家。请分析：
+      - 产值：{total_revenue}元，工单：{total_orders}
+      - 回厂率：{return_rate}，配件成本：{parts_cost}，工时成本：{labor_cost}
+      请输出：1)单车产值等KPI 2)健康度 3)工单分析 4)客户留存建议
+
+  S10:
+    name: "母婴零售店"
+    icon: "baby"
+    target: "母婴用品实体店"
+    dimensions: ["会员", "品类", "库存", "营销"]
+    default_metrics: ["会员销售占比", "周转天数", "连带率"]
+    form_groups:
+      - group: "基础经营"
+        fields:
+          - {key: "total_revenue", label: "近30天营业额（元）", type: "number", required: true}
+          - {key: "member_revenue", label: "会员消费额（元）", type: "number"}
+      - group: "库存与营销"
+        fields:
+          - {key: "inventory_turnover_days", label: "库存周转天数", type: "number"}
+          - {key: "avg_items_per_order", label: "连带率（件/单）", type: "number"}
+          - {key: "member_count", label: "会员数", type: "number"}
+    prompt_template: |
+      你是一位母婴零售经营分析专家。请分析：
+      - 营业额：{total_revenue}元，会员消费：{member_revenue}
+      - 周转天数：{inventory_turnover_days}，连带率：{avg_items_per_order}
+      请输出：1)会员占比等KPI 2)健康度 3)品类分析 4)会员营销建议
+
+  S11:
+    name: "文创手作店"
+    icon: "palette"
+    target: "手工体验/礼品店"
+    dimensions: ["体验课", "零售", "定制", "评价"]
+    default_metrics: ["体验课转化", "客单价", "复购率"]
+    form_groups:
+      - group: "基础经营"
+        fields:
+          - {key: "total_revenue", label: "近30天营业额（元）", type: "number", required: true}
+          - {key: "workshop_revenue", label: "体验课收入（元）", type: "number"}
+          - {key: "retail_revenue", label: "零售收入（元）", type: "number"}
+      - group: "客户"
+        fields:
+          - {key: "workshop_attendees", label: "体验课参与人数", type: "number"}
+          - {key: "repurchase_rate", label: "复购率（0-1）", type: "number", min: 0, max: 1}
+    prompt_template: |
+      你是一位文创手作行业经营分析专家。请分析：
+      - 营业额：{total_revenue}元（体验课：{workshop_revenue}，零售：{retail_revenue}）
+      - 参与人数：{workshop_attendees}，复购率：{repurchase_rate}
+      请输出：1)体验课转化等KPI 2)健康度 3)收入结构分析 4)体验引流建议
+
+  S12:
+    name: "综合零售店"
+    icon: "shopping-bag"
+    target: "杂货铺/小超市"
+    dimensions: ["销售", "品类", "库存", "客流"]
+    default_metrics: ["客单价", "品类贡献", "库存周转"]
+    form_groups:
+      - group: "基础经营"
+        fields:
+          - {key: "total_revenue", label: "近30天营业额（元）", type: "number", required: true}
+          - {key: "total_transactions", label: "交易笔数", type: "number", required: true}
+      - group: "库存与客流"
+        fields:
+          - {key: "avg_daily_customers", label: "日均客流", type: "number"}
+          - {key: "inventory_turnover_days", label: "库存周转天数", type: "number"}
+          - {key: "category_count", label: "活跃品类数", type: "number"}
+    prompt_template: |
+      你是一位综合零售经营分析专家。请分析：
+      - 营业额：{total_revenue}元，交易：{total_transactions}笔
+      - 日均客流：{avg_daily_customers}，周转天数：{inventory_turnover_days}
+      请输出：1)客单价等KPI 2)健康度 3)品类贡献分析 4)库存优化建议

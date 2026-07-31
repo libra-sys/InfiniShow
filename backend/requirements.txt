@@ -1,0 +1,57 @@
+# Web Framework
+fastapi==0.111.1
+uvicorn[standard]==0.30.3
+python-multipart==0.0.9
+
+# Database
+sqlalchemy[asyncio]==2.0.31
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+alembic==1.13.2
+
+# Cache & Message Queue
+redis==5.0.8
+celery==5.4.0
+
+# Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.1.3
+
+# HTTP Client for InfiniSynapse
+aiohttp==3.9.5
+aiofiles==24.1.0
+
+# Storage
+minio==7.2.7
+
+# Data Processing
+openpyxl==3.1.5
+pyyaml==6.0.2
+
+# PDF Generation
+weasyprint==62.3
+jinja2==3.1.4
+reportlab==4.2.5
+qrcode==7.4.2
+Pillow==10.4.0
+
+# Validation & Settings
+pydantic==2.8.2
+pydantic-settings==2.3.4
+email-validator==2.2.0
+
+# Monitoring & Logging
+prometheus-client==0.20.0
+python-json-logger==2.0.7
+
+# Testing
+pytest==8.3.2
+pytest-asyncio==0.23.8
+httpx==0.27.0
+factory-boy==3.3.0
+
+# Utilities
+python-dotenv==1.0.1
+ulid-py==1.1.0
+orjson==3.10.6
