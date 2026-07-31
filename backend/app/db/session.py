@@ -1,6 +1,7 @@
 """SQLAlchemy 异步会话管理."""
 
 from collections.abc import AsyncGenerator
+from typing import Any
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
@@ -10,13 +11,19 @@ from app.config import get_settings
 
 settings = get_settings()
 
+# SQLite 不支持 pool_size/max_overflow
+_engine_kwargs: dict[str, Any] = {
+    "echo": settings.debug,
+    "future": True,
+    "pool_pre_ping": True,
+}
+if not settings.is_sqlite:
+    _engine_kwargs["pool_size"] = 20
+    _engine_kwargs["max_overflow"] = 10
+
 engine = create_async_engine(
     str(settings.database_url),
-    echo=settings.debug,
-    future=True,
-    pool_size=20,
-    max_overflow=10,
-    pool_pre_ping=True,
+    **_engine_kwargs,
 )
 
 AsyncSessionLocal = async_sessionmaker(
